@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  userID   Int        @id @default(autoincrement())
+  email    String     @unique(map: "email") @db.VarChar(100)
+  password String     @db.VarChar(255)
+  fullname String?    @db.VarChar(100)
+  phone    String?    @db.VarChar(20)
+  avatar   String?    @db.VarChar(255)
+  role     String?    @default("USER") @db.VarChar(20)
+  bookings bookings[]
+  reviews  reviews[]
+  rooms    rooms[]
+}
+
+model rooms {
+  roomID      Int        @id @default(autoincrement())
+  roomName    String?    @db.VarChar(255)
+  description String?    @db.Text
+  price       Float?     @db.Float
+  location    String?    @db.VarChar(255)
+  image       String?    @db.VarChar(255)
+  userID      Int?
+  bookings    bookings[]
+  reviews     reviews[]
+  user        users?     @relation(fields: [userID], references: [userID], onDelete: Cascade, onUpdate: NoAction, map: "rooms_ibfk_1")
+
+  @@index([userID], map: "userID")
+}
+
+model bookings {
+  bookingID Int       @id @default(autoincrement())
+  userID    Int?
+  roomID    Int?
+  checkIn   DateTime? @db.Date
+  checkOut  DateTime? @db.Date
+  guests    Int?
+  users     users?    @relation(fields: [userID], references: [userID], onDelete: Cascade, onUpdate: NoAction, map: "bookings_ibfk_1")
+  room      rooms?    @relation(fields: [roomID], references: [roomID], onDelete: Cascade, onUpdate: NoAction, map: "bookings_ibfk_2")
+
+  @@index([roomID], map: "roomID")
+  @@index([userID], map: "userID")
+}
+
+model reviews {
+  reviewID  Int       @id @default(autoincrement())
+  userID    Int?
+  roomID    Int?
+  rating    Int?
+  content   String?   @db.Text
+  createdAt DateTime? @default(now()) @db.DateTime(0)
+  users     users?    @relation(fields: [userID], references: [userID], onDelete: Cascade, onUpdate: NoAction, map: "reviews_ibfk_1")
+  room      rooms?    @relation(fields: [roomID], references: [roomID], onDelete: Cascade, onUpdate: NoAction, map: "reviews_ibfk_2")
+
+  @@index([roomID], map: "roomID")
+  @@index([userID], map: "userID")
+}
