@@ -44,9 +44,6 @@ const router = express.Router();
  *               checkOut:
  *                 type: string
  *                 example: 2026-05-05
- *               guests:
- *                 type: integer
- *                 example: 1
  *     responses:
  *       200:
  *         description: Đặt phòng thành công

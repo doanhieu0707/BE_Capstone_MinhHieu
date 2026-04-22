@@ -7,13 +7,11 @@ export const getRooms = async (query) => {
 
     const skip = (page - 1) * pageSize;
 
-    let where = {};
-
-    if (search) {
-        where.roomName = {
+    const where = {
+        roomName: {
             contains: search,
-        };
-    }
+        },
+    };
 
     const [items, total] = await Promise.all([
         prisma.rooms.findMany({

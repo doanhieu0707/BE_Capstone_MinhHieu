@@ -44,7 +44,7 @@ const router = express.Router();
  *               checkOut:
  *                 type: string
  *                 example: 2026-05-05
- *               guests:
+ *              roomID:
  *                 type: integer
  *                 example: 1
  *     responses:

@@ -33,7 +33,7 @@ const router = express.Router();
  *               - roomID
  *               - checkIn
  *               - checkOut
- *               - guests
+ * - guests
  *             properties:
  *               roomID:
  *                 type: integer
@@ -44,9 +44,6 @@ const router = express.Router();
  *               checkOut:
  *                 type: string
  *                 example: 2026-05-05
- *               guests:
- *                 type: integer
- *                 example: 1
  *     responses:
  *       200:
  *         description: Đặt phòng thành công
